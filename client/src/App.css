@@ -1,0 +1,87 @@
+.App {
+  text-align: center;
+}
+
+#root {
+  background-color: rgb(254,230,0);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100vh;
+  width: 100%;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 80px;
+  justify-content: space-between;
+}
+
+.hint {
+  margin: 20px;
+}
+
+.footer, .header {
+  display: flex;
+  align-items: center;
+  height: 25vh;
+  width: 100%;
+  justify-content: space-around;
+}
+
+.bnRegister {
+  margin-bottom: 2vh;
+}
+
+.inputCarNumber {
+  margin-left: 0.7%;
+}
+
+.infoBtn {
+  display: flex;
+  flex-direction: column;
+}
+
+.linkMain {
+  margin-top: 2vh;
+  width: 100%;
+}
+
+.bnHide {
+  /* visibility: hidden; */
+  background-color: transparent;
+  border: 0px solid transparent;
+  color: rgb(90,97,106);
+  padding: 0;
+  width: 100%;
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  width: 68vw;
+}
+
+.imgfooter {
+  width: 18vw;
+}
+
+#logo {
+  width: 85%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
