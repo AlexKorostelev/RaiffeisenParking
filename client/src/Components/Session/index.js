@@ -7,7 +7,7 @@ function Session() {
   const [parkingSession, setParkingSession] = useState({});
   const [time, setTime] = useState('');
   const [cost, setCost] = useState(null);
-
+  const [imgQR, setimgQR] = useState('');
   const { carNumber } = useParams();
   const { parkingTitle, startTime, tariff } = parkingSession;
 
@@ -67,6 +67,27 @@ function Session() {
     });
     const jsonResponse = await response.json();
     console.log(jsonResponse);
+    const paramsQR = {
+      "additionalInfo": parkingTitle,
+      "amount": cost,
+      "createDate": new Date(),
+      "currency": "RUB",
+      "order": jsonResponse.id,
+      "paymentDetails": "Оплата за парковку",
+      "qrType": "QRDynamic",
+      "qrExpirationDate": "2023-07-22T09:14:38.107227+03:00",
+      "sbpMerchantId": "MA313441"
+      };
+    const getQR = await fetch("https://test.ecom.raiffeisen.ru/api/sbp/v1/qr/register", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+      body: JSON.stringify(paramsQR)
+    });
+    const qr = await getQR.json();
+    setimgQR(qr.qrUrl)
+    console.log(qr);
   }
 
   return (
@@ -89,7 +110,9 @@ function Session() {
             {cost}
             {' ₽'}
           </div>
-          <button type="button" onClick={onPayButtonClick}>Оплатить</button>
+          <button type="button" onClick={onPayButtonClick}>Оплатить</button><br />
+       
+       <img src={imgQR} alt="альтернативный текст" />
         </div>
       ) : (
         <Loader />
