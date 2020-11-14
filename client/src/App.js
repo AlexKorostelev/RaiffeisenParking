@@ -6,6 +6,7 @@ import Header from './Components/Header';
 import Footer from './Components/Footer';
 import Session from './Components/Session';
 import Registration from './Components/Registration';
+import Login from './Components/Login';
 
 function App() {
   return (
@@ -23,6 +24,9 @@ function App() {
         </Route>
         <Route exact path="/registration">
           <Registration />
+        </Route>
+        <Route exact path="/login">
+          <Login />
         </Route>
       </Switch>
       <Footer />
