@@ -13,7 +13,7 @@ function Session() {
   const { parkingTitle, startTime, tariff } = parkingSession;
 
   useEffect(() => {
-    fetch(`http://localhost:3333/session/${carNumber}/info`)
+    fetch(`http://192.168.1.57:3333/session/${carNumber}/info`)
       .then((response) => response.json())
       .then((data) => {
         setParkingSession(data);
@@ -60,7 +60,7 @@ function Session() {
     if (!parkingSession) return;
     // eslint-disable-next-line no-underscore-dangle
     const sessionId = parkingSession._id;
-    const response = await fetch(`http://localhost:3333/session/${sessionId}/stop`, {
+    const response = await fetch(`http://192.168.1.57:3333/session/${sessionId}/stop`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -73,7 +73,7 @@ function Session() {
       "amount": cost,
       "createDate": new Date(),
       "currency": "RUB",
-      "order": sessionId + 2,
+      "order": sessionId + 5,
       "paymentDetails": "Оплата за парковку",
       "qrType": "QRDynamic",
       "qrExpirationDate": "2023-07-22T09:14:38.107227+03:00",
@@ -100,23 +100,27 @@ function Session() {
           <div id="place">
             Место парковки:
             {' '}
+            <b>
             {parkingTitle}
+            </b>
           </div>
           <div id="time">
             Время парковки:
             {' '}
+            <b>
             {time}
+            </b>
           </div>
           <div id="price">
             К оплате:
+            <b>
             {' '}
             {cost}
             {' ₽'}
+            </b>
+            <button className="btn btn-lg btn-secondary mt-2" type="button" onClick={onPayButtonClick}><b>ОПЛАТИТЬ</b></button>
           </div>
-          <button type="button" onClick={onPayButtonClick}>Оплатить</button>
           <br />
-       
-       <img src={imgQR} alt="альтернативный текст" />
         </div>
       ) : (
         <Loader />
