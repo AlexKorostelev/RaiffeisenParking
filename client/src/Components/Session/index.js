@@ -72,7 +72,7 @@ function Session() {
       "amount": cost,
       "createDate": new Date(),
       "currency": "RUB",
-      "order": '1',
+      "order": sessionId,
       "paymentDetails": "Оплата за парковку",
       "qrType": "QRDynamic",
       "qrExpirationDate": "2023-07-22T09:14:38.107227+03:00",

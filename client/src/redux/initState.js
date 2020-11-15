@@ -1,6 +1,6 @@
 const initState = () => {
   const init = {
-    tasks: [],
+    cars: [],
   };
   return JSON.parse(localStorage.getItem('store')) || init;
 };
