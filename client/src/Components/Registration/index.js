@@ -59,7 +59,7 @@ function Form() {
             </div>
             {trigger
               ? (
-                <button onClick={submitHandler} type="submit" className="btn btn-primary">
+                <button onClick={submitHandler} type="submit" className="btn btn-secondary .btn-block">
                   Регистрация
                 </button>
               )
