@@ -8,6 +8,7 @@ function Session() {
   const [time, setTime] = useState('');
   const [cost, setCost] = useState(null);
   const [imgQR, setimgQR] = useState('');
+  const [qrPayload, setQrPayload] = useState('');
   const { carNumber } = useParams();
   const { parkingTitle, startTime, tariff } = parkingSession;
 
@@ -72,7 +73,7 @@ function Session() {
       "amount": cost,
       "createDate": new Date(),
       "currency": "RUB",
-      "order": sessionId,
+      "order": sessionId + 2,
       "paymentDetails": "Оплата за парковку",
       "qrType": "QRDynamic",
       "qrExpirationDate": "2023-07-22T09:14:38.107227+03:00",
@@ -86,8 +87,10 @@ function Session() {
       body: JSON.stringify(paramsQR)
     });
     const qr = await getQR.json();
-    setimgQR(qr.qrUrl)
+    setimgQR(qr.qrUrl);
+    setQrPayload(qr.payload);
     console.log(qr);
+
   }
 
   return (
@@ -110,7 +113,8 @@ function Session() {
             {cost}
             {' ₽'}
           </div>
-          <button type="button" onClick={onPayButtonClick}>Оплатить</button><br />
+          <button type="button" onClick={onPayButtonClick}>Оплатить</button>
+          <br />
        
        <img src={imgQR} alt="альтернативный текст" />
         </div>

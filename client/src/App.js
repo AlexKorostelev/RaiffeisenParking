@@ -28,6 +28,10 @@ function App() {
         <Route exact path="/login">
           <Login />
         </Route>
+        <Route exact path='/payload' component={() => { 
+          window.location.href = 'https://qr.nspk.ru/AD9544F7A25A413086E343978307600A?type=02&bank=10000001&sum=425000&cur=RUB&crc=C08B'; 
+          return null;
+          }}/>
       </Switch>
       <Footer />
     </Router>

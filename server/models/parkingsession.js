@@ -12,7 +12,11 @@ const parkingSessionSchema = mongoose.Schema({
     default: null,
   },
   parkingTitle: String,
-  tariff: Number, //!
+  tariff: Number,
+  paymentStatus: {
+    type: String,
+    default: false,
+  }
 });
 
 module.exports = mongoose.model('ParkingSession', parkingSessionSchema);
