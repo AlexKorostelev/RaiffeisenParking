@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addNew } from '../../redux/actionCreators/cars';
 import Loader from '../Loader';
+import { correctInputNum, inputNumValidation } from '../Main';
 
 function Form() {
   const [carNumber, setCarNumber] = useState('');
@@ -15,9 +16,10 @@ function Form() {
   const user = { carNumber, password, userStatus };
 
   const submitHandler = (e) => {
-    setTrigger(false);
     e.preventDefault();
-    if (carNumber && password) {
+    // console.log('==>>>>>>>>>>>>>>>>>>>>>', inputNumValidation(carNumber));
+    if (inputNumValidation(carNumber) && password) {
+      setTrigger(false);
       fetch('http://localhost:3333/user/new', {
         method: 'POST',
         headers: {
@@ -26,6 +28,7 @@ function Form() {
         body: JSON.stringify({ carNumber, password }),
       }).then((res) => {
         if (res.status === 200) {
+          // console.log('ADD USER COMPLETE!');
           setUserStatus(true);
           dispatch(addNew(user));
         }
@@ -38,35 +41,35 @@ function Form() {
   return (
     <>
       {
-      userStatus ? <Redirect to={`/session/${carNumber}/info`} />
-        : (
-          <form>
-            <div className="form-group">
-              <input
-                onChange={(e) => setCarNumber(e.target.value)}
-                placeholder="Enter car number"
-                value={carNumber}
-                type="text"
-                className="form-control my-1"
-              />
-              <input
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password ..."
-                value={password}
-                type="password"
-                className="form-control my-1"
-              />
-            </div>
-            {trigger
-              ? (
-                <button onClick={submitHandler} type="submit" className="btn btn-primary">
-                  Регистрация
-                </button>
-              )
-              : <Loader />}
-          </form>
-        )
-    }
+        userStatus ? <Redirect to={`/session/${carNumber}/info`} />
+          : (
+            <form>
+              <div className="form-group">
+                <input
+                  onChange={(e) => setCarNumber(correctInputNum(e.target.value))}
+                  placeholder="Enter car number"
+                  value={carNumber}
+                  type="text"
+                  className="form-control my-1"
+                />
+                <input
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Password ..."
+                  value={password}
+                  type="password"
+                  className="form-control my-1"
+                />
+              </div>
+              {trigger
+                ? (
+                  <button onClick={submitHandler} type="submit" className="btn btn-primary">
+                    Регистрация
+                  </button>
+                )
+                : <Loader />}
+            </form>
+          )
+      }
     </>
   );
 }

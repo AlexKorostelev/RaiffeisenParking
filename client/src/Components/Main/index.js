@@ -3,6 +3,43 @@ import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addNew } from '../../redux/actionCreators/cars';
 
+// ====================================================
+// Оставляет в input только валидные символы госномера, 
+// срабатывает по событию onChange
+// ====================================================
+function correctInputNum(str) {
+  // return str;
+
+  const code = {
+    А: 'A',
+    В: 'B',
+    Е: 'E',
+    К: 'K',
+    М: 'M',
+    Н: 'H',
+    О: 'O',
+    Р: 'P',
+    С: 'C',
+    Т: 'T',
+    У: 'Y',
+    Х: 'X',
+  };
+
+  let arr = str.toUpperCase().replace(/[^АВЕКМНОРСТУХABEKMHOPCTYX0123456789]/g, '').split('');
+  arr = arr.map((e) => (/[АВЕКМНОРСТУХ]/.test(e) ? code[e] : e));
+
+  return arr.join('');
+}
+
+// ====================================================
+// Проверяет порядок и количество символов в госномере
+// Если госномер соответствует стандарту - возвращает true
+// ====================================================
+function inputNumValidation(number) {
+  // return true;
+  return (/^\w{1}\d{3}\w{2}\d{2,3}$/.test(number));
+}
+
 function Form() {
   // const [value, setValue] = useState('');
   const [carNumber, setCarNumber] = useState('');
@@ -12,34 +49,10 @@ function Form() {
   const dispatch = useDispatch();
   const user = { carNumber, password, status: false };
 
-  function checkInputNum(str) {
-    const code = {
-      А: 'A',
-      В: 'B',
-      Е: 'E',
-      К: 'K',
-      М: 'M',
-      Н: 'H',
-      О: 'O',
-      Р: 'P',
-      С: 'C',
-      Т: 'T',
-      У: 'Y',
-      Х: 'X',
-    };
-
-    let arr = str.toUpperCase().replace(/[^АВЕКМНОРСТУХABEKMHOPCTYX0123456789]/g, '').split('');
-    arr = arr.map((e) => (/[АВЕКМНОРСТУХ]/.test(e) ? code[e] : e));
-
-    return arr.join('');
-  }
-
-  function validityCheck() {
-    return (/^\w{1}\d{3}\w{2}\d{2,3}$/.test(carNumber));
-  }
-
   const submitHandler = () => {
-    if (validityCheck() && password) {
+    // console.log(validityCheck());
+
+    if (inputNumValidation(carNumber) && password) {
       fetch('/user/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -59,14 +72,14 @@ function Form() {
     <form>
       <div className="form-group formContainer">
         <input
-          onChange={(e) => setCarNumber(e.target.value)}
+          onChange={(e) => setCarNumber(correctInputNum(e.target.value))}
           placeholder="Enter car number"
           value={carNumber}
           type="text"
           className="form-control my-1"
         />
         <input
-          onChange={(e) => setPassword(checkInputNum(e.target.value))}
+          onChange={(e) => setPassword(e.target.value)}
           placeholder="Password ..."
           value={password}
           type="password"
@@ -78,7 +91,7 @@ function Form() {
           </button>
         </Link>
       </div>
-      <Link to={user.satus ? `/session/${carNumber}/info` : '/'}>
+      <Link to={user.status ? `/session/${carNumber}/info` : '/'}>
         <button onClick={submitHandler} type="submit" className="btn btn-primary">
           Войти
         </button>
@@ -98,4 +111,4 @@ function Main() {
   );
 }
 
-export default Main;
+export { Main, correctInputNum, inputNumValidation };
